@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-psql-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users-psql
+  template:
+    metadata:
+      labels:
+        app: users-psql
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:latest
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: users_db
+            - name: POSTGRES_USER
+              value: myuser
+            - name: POSTGRES_PASSWORD
+              value: mypassword
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-psql-srv
+spec:
+  selector:
+    app: users-psql
+  ports:
+    - name: db
+      protocol: TCP
+      port: 5432
+      targetPort: 5432
