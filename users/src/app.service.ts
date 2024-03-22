@@ -26,6 +26,6 @@ export class AppService {
     this.em.persist(x);
     const users = await this.userRepo.findAll();
     this.logger.log(users);
-    return 'Hello World Microservices! usersd';
+    return 'Hello World Microservices! from users';
   }
 }
